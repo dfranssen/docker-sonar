@@ -19,4 +19,16 @@ VOLUME /sonarqube-data
 RUN echo "sonar.web.javaOpts=-server -Dfile.encoding=UTF-8" >> conf/sonar.properties
 
 EXPOSE 9000
+
+#Add plugins
+ADD plugins/sonar-build-stability-plugin-1.2.1.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-checkstyle-plugin-2.1.1.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-cobertura-plugin-1.6.3.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-findbugs-plugin-3.0.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-generic-coverage-plugin-1.1.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-jira-plugin-1.2.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-jmeter-plugin-0.2.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-pmd-plugin-2.2.jar /${SONAR_BASE}/extensions/plugins
+ADD plugins/sonar-sonargraph-plugin-3.3.jar /${SONAR_BASE}/extensions/plugins
+
 CMD ["/opt/sonar/bin/linux-x86-64/sonar.sh", "console", "/bin/bash"]
