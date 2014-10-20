@@ -3,20 +3,20 @@ MAINTAINER Dirk Franssen "dirk.franssen@gmail.com"
 
 ENV VERSION 4.5
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN echo "deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/" >> /etc/apt/sources.list
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get install unzip
+RUN curl -sSLo /sonar.zip http://dist.sonar.codehaus.org/sonarqube-${VERSION}.zip && \
+    echo "a39a52a29344b422029bd8b04d1cb84d  /sonar.zip" | md5sum -c && \
+    unzip /sonar.zip && \
+    rm /sonar.zip
 
-RUN apt-get install -y --force-yes sonar
-
-ENV SONAR_BASE /opt/sonar
-WORKDIR /opt/sonar
+ENV SONAR_BASE /sonarqube-$VERSION
+WORKDIR /sonarqube-4.5
 
 RUN mkdir /sonarqube-data
-RUN ln -s /sonarqube-data ${SONAR_BASE}/data
+RUN ln -s /sonarqube-data /sonarqube-$VERSION/data
 VOLUME /sonarqube-data
 
-RUN echo "sonar.web.javaOpts=-server -Dfile.encoding=UTF-8" >> conf/sonar.properties
+RUN echo "sonar.web.javaOpts=-server" >> conf/sonar.properties
 
 EXPOSE 9000
 
